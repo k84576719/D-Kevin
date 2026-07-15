@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>D-Kevin · Guestbook</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+    <main class="container">
+        <header class="hero">
+            <h1>D-Kevin Guestbook</h1>
+            <p>A tiny Flask + MySQL demo. Leave a message below.</p>
+        </header>
+
+        <form class="card form" method="post" action="{{ url_for('create_message') }}">
+            <div class="row">
+                <input type="text" name="name" placeholder="Your name" maxlength="80" />
+            </div>
+            <div class="row">
+                <textarea name="content" placeholder="Write your message..." maxlength="1000" required></textarea>
+            </div>
+            <button type="submit">Post message</button>
+        </form>
+
+        <section class="messages">
+            <h2>{{ messages|length }} message{{ '' if messages|length == 1 else 's' }}</h2>
+            {% for m in messages %}
+            <article class="card message">
+                <div class="message-head">
+                    <span class="author">{{ m.name }}</span>
+                    <span class="time">{{ m.created_at }}</span>
+                </div>
+                <p class="content">{{ m.content }}</p>
+            </article>
+            {% else %}
+            <p class="empty">No messages yet. Be the first!</p>
+            {% endfor %}
+        </section>
+    </main>
+</body>
+</html>
